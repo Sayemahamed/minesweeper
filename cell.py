@@ -17,7 +17,7 @@ class Cell:
             location,
             width=12,
             height=4,
-            text=f"{self.x},{self.y}"
+            text="x"
         )
         button.bind("<Button-1>",  self.left_click)
         button.bind("<Button-3>",  self.right_click)
@@ -27,31 +27,52 @@ class Cell:
         if self.is_mine:
             self.show_mines()
         else:
-            self.show_mine_number()
-    def get_mine_by_axis(self, x, y):
+            self.show_mine_number(self.x,self.y)
+    def get_cell_by_axis(self, x, y):
         for cell in Cell.all:
             if cell.x == x and cell.y == y:
-                return cell.is_mine
+                return cell
             
-    def show_mine_number(self):
+    def show_mine_number(self,x,y):
+        if self.get_cell_by_axis(x,y).text=="x":
+            return
         count=0
-        if(self.x-1>=0 and self.y-1>=0):
-            count+=self.get_mine_by_axis(self.x-1, self.y-1)
-        if(self.x-1>=0):
-            count+=self.get_mine_by_axis(self.x-1, self.y)
-        if(self.x-1>=0 and self.y+1<settings.GRID_SIZE):
-            count+=self.get_mine_by_axis(self.x-1, self.y+1)
-        if(self.y-1>=0):
-            count+=self.get_mine_by_axis(self.x, self.y-1)
-        if(self.y+1<settings.GRID_SIZE):
-            count+=self.get_mine_by_axis(self.x, self.y+1)
-        if(self.x+1<settings.GRID_SIZE and self.y-1>=0):
-            count+=self.get_mine_by_axis(self.x+1, self.y-1)
-        if(self.x+1<settings.GRID_SIZE):
-            count+=self.get_mine_by_axis(self.x+1, self.y)
-        if(self.x+1<settings.GRID_SIZE and self.y+1<settings.GRID_SIZE):
-            count+=self.get_mine_by_axis(self.x+1, self.y+1)
-        self.cell_button_object.configure(text=count)
+        if(x-1>=0 and y-1>=0):
+            count+=self.get_mine_by_axis(x-1, y-1).is_mine
+        if(x-1>=0):
+            count+=self.get_mine_by_axis(x-1, y).is_mine
+        if(x-1>=0 and y+1<settings.GRID_SIZE):
+            count+=self.get_mine_by_axis(x-1, y+1).is_mine
+        if(y-1>=0):
+            count+=self.get_mine_by_axis(x, y-1).is_mine
+        if(y+1<settings.GRID_SIZE):
+            count+=self.get_mine_by_axis(x, y+1).is_mine
+        if(x+1<settings.GRID_SIZE and y-1>=0):
+            count+=self.get_mine_by_axis(x+1, y-1).is_mine
+        if(x+1<settings.GRID_SIZE):
+            count+=self.get_mine_by_axis(x+1, y).is_mine
+        if(x+1<settings.GRID_SIZE and y+1<settings.GRID_SIZE):
+            count+=self.get_mine_by_axis(x+1, y+1).is_mine
+        for cell in Cell.all:
+            if cell.x == x and cell.y == y:
+                cell.cell_button_object.configure(text=count)
+        if count==0:
+            if(x-1>=0 and y-1>=0):
+                self.show_mine_number(x-1, y-1)
+            if(x-1>=0):
+                self.show_mine_number(x-1, y)
+            if(x-1>=0 and y+1<settings.GRID_SIZE):
+                self.show_mine_number(x-1, y+1)
+            if(y-1>=0):
+                self.show_mine_number(x, y-1)
+            if(y+1<settings.GRID_SIZE):
+                self.show_mine_number(x, y+1)
+            if(x+1<settings.GRID_SIZE and y-1>=0):
+                self.show_mine_number(x+1, y-1)
+            if(x+1<settings.GRID_SIZE):
+                self.show_mine_number(x+1, y)
+            if(x+1<settings.GRID_SIZE and y+1<settings.GRID_SIZE):
+                self.show_mine_number(x+1, y+1)
 
     def show_mines(self):
         for cell in Cell.all:
