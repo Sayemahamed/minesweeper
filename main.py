@@ -14,7 +14,7 @@ root.resizable(False, False)
 top_frame= Frame(
     root, 
     bg="red",# Change later to black
-    width=1440,
+    width=width_percentage(100),
     height=height_percentage(25)
     )
 top_frame.place(x=0, y=0)
@@ -22,9 +22,9 @@ top_frame.place(x=0, y=0)
 left_frame= Frame(
     root, 
     bg="blue",# Change later to black
-    width=360,
-    height=540
+    width=width_percentage(25),
+    height=height_percentage(75)
     )
-left_frame.place(x=0, y=180)
+left_frame.place(x=0, y=height_percentage(25))
 # Run the window
 root.mainloop()
