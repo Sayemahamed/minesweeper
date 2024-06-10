@@ -1,4 +1,5 @@
 from tkinter import *
+from cell import Cell
 import settings
 from utilities import * 
 
@@ -13,7 +14,7 @@ root.resizable(False, False)
 # Top Frame
 top_frame= Frame(
     root, 
-    bg="red",# Change later to black
+    bg="black",
     width=width_percentage(100),
     height=height_percentage(25)
     )
@@ -21,10 +22,24 @@ top_frame.place(x=0, y=0)
 # Left Frame
 left_frame= Frame(
     root, 
-    bg="blue",# Change later to black
+    bg="black",
     width=width_percentage(25),
     height=height_percentage(75)
     )
 left_frame.place(x=0, y=height_percentage(25))
+# Center Frame
+center_frame= Frame(
+    root, 
+    bg="blue",
+    width=width_percentage(75),
+    height=height_percentage(75)
+    )
+center_frame.place(x=width_percentage(25), y=height_percentage(25))
+# Button 
+for x in range(5):
+    for y in range(5):
+        c = Cell()
+        c.create_cell_button(center_frame)
+        c.cell_button_object.grid(row=x, column=y)
 # Run the window
 root.mainloop()

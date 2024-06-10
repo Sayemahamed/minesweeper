@@ -1,3 +1,3 @@
 WIDTH=1440
 HEIGHT=720
-TITLE="MineSweeper"
+TITLE="MineSweeper Game"
