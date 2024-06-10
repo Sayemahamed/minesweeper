@@ -9,6 +9,7 @@ root.config(bg="black")
 root.geometry(f"{settings.WIDTH}x{settings.HEIGHT}")
 root.title(settings.TITLE)
 
+
 root.resizable(False, False)
 # Frames
 # Top Frame
@@ -41,5 +42,8 @@ for x in range(settings.GRID_SIZE):
         c = Cell(x,y)
         c.create_cell_button(center_frame)
         c.cell_button_object.grid(row = x,column=y)
+Cell.randomize_mines()
+# for cell in Cell.all: 
+#     print(cell.is_mine)
 # Run the window 
-root.mainloop()
+root.mainloop() 
