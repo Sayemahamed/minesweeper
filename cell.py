@@ -1,5 +1,6 @@
 import utilities
 import random
+import settings
 from tkinter import Button
 class Cell:
     all=[]
@@ -23,9 +24,41 @@ class Cell:
         self.cell_button_object = button
 
     def left_click(self, event):
-        print(event)
-        print("left")
+        if self.is_mine:
+            self.show_mines()
+        else:
+            self.show_mine_number()
+    def get_mine_by_axis(self, x, y):
+        for cell in Cell.all:
+            if cell.x == x and cell.y == y:
+                return cell.is_mine
+            
+    def show_mine_number(self):
+        count=0
+        if(self.x-1>=0 and self.y-1>=0):
+            count+=self.get_mine_by_axis(self.x-1, self.y-1)
+        if(self.x-1>=0):
+            count+=self.get_mine_by_axis(self.x-1, self.y)
+        if(self.x-1>=0 and self.y+1<settings.GRID_SIZE):
+            count+=self.get_mine_by_axis(self.x-1, self.y+1)
+        if(self.y-1>=0):
+            count+=self.get_mine_by_axis(self.x, self.y-1)
+        if(self.y+1<settings.GRID_SIZE):
+            count+=self.get_mine_by_axis(self.x, self.y+1)
+        if(self.x+1<settings.GRID_SIZE and self.y-1>=0):
+            count+=self.get_mine_by_axis(self.x+1, self.y-1)
+        if(self.x+1<settings.GRID_SIZE):
+            count+=self.get_mine_by_axis(self.x+1, self.y)
+        if(self.x+1<settings.GRID_SIZE and self.y+1<settings.GRID_SIZE):
+            count+=self.get_mine_by_axis(self.x+1, self.y+1)
+        self.cell_button_object.configure(text=count)
 
+    def show_mines(self):
+        for cell in Cell.all:
+            if cell.is_mine:
+                cell.cell_button_object.configure(bg="red")
+            else:
+                cell.cell_button_object.configure(bg="black")
     def right_click(self, event):
         print(event)
         print("right")
