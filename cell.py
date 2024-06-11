@@ -4,6 +4,8 @@ import settings
 from tkinter import Button
 class Cell:
     all=[]
+    cell_count=settings.GRID_SIZE**2 - utilities.mine_count()
+
     def __init__(self,x,y, is_mine=False):
         self.is_mine = is_mine
         self.cell_button_object = None
@@ -38,6 +40,7 @@ class Cell:
         if self.get_cell_by_axis(x,y).is_visited:
             return
         self.get_cell_by_axis(x,y).is_visited=True
+        Cell.cell_count-=1
         count=0
         if(x-1>=0 and y-1>=0):
             count+=self.get_cell_by_axis(x-1, y-1).is_mine

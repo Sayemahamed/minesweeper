@@ -20,6 +20,14 @@ top_frame= Frame(
     height=height_percentage(25)
     )
 top_frame.place(x=0, y=0)
+label =Label(
+    top_frame,
+    text="Minesweeper Game",
+    bg="black",
+    fg="white",
+    font=("", 40)
+)
+label.place(x=width_percentage(25), y=0)
 # Left Frame
 left_frame= Frame(
     root, 
