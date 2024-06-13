@@ -36,6 +36,8 @@ left_frame= Frame(
     height=height_percentage(75)
     )
 left_frame.place(x=0, y=height_percentage(25))
+Cell.create_cell_count_label(left_frame)
+Cell.cell_count_label_object.place(x=0, y=0)
 # Center Frame
 center_frame= Frame(
     root, 

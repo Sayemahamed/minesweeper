@@ -1,18 +1,18 @@
 import utilities
 import random
 import settings
-from tkinter import Button
+from tkinter import Button, Label
 class Cell:
     all=[]
     cell_count=settings.GRID_SIZE**2 - utilities.mine_count()
-
+    cell_count_label_object = None
     def __init__(self,x,y, is_mine=False):
         self.is_mine = is_mine
         self.cell_button_object = None
         self.x = x
         self.y = y
         self.is_visited=False
-
+        self.is_marked=False
         #Append the object to the Cell class
         Cell.all.append(self)
     def create_cell_button(self, location):
@@ -41,6 +41,7 @@ class Cell:
             return
         self.get_cell_by_axis(x,y).is_visited=True
         Cell.cell_count-=1
+        Cell.cell_count_label_object.configure(text=f"Cells Left: {Cell.cell_count}")
         count=0
         if(x-1>=0 and y-1>=0):
             count+=self.get_cell_by_axis(x-1, y-1).is_mine
@@ -86,8 +87,12 @@ class Cell:
             else:
                 cell.cell_button_object.configure(bg="black")
     def right_click(self, event):
-        print(event)
-        print("right")
+        if not self.is_marked:
+            self.cell_button_object.configure(bg="orange")
+            self.is_marked=True
+        else:
+            self.cell_button_object.configure(bg="SystemButtonFace")
+            self.is_marked=False
     # Self Printing
 
     def __repr__(self):
@@ -97,3 +102,13 @@ class Cell:
         selected_cells=random.sample(Cell.all, utilities.mine_count())
         for cell in selected_cells:
             cell.is_mine=True
+    @staticmethod
+    def create_cell_count_label(location):
+        lbl = Label(
+            location,
+            bg="black",
+            fg="white",
+            text=f"Cells Left: {Cell.cell_count}",
+            font=("", 30)
+        )
+        Cell.cell_count_label_object = lbl
